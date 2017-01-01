@@ -1,0 +1,27 @@
+.md-button{
+  margin-left:3em;
+  margin-right:3em;
+  font-weight:bold;
+  font-size:120%;
+}
+
+.navbar-text {
+  margin-left: 15px;
+}
+.green{
+  background-color:#80ff80 !important;
+}
+.blue{
+  background-color:#80bfff !important;
+}
+.yellow{
+  background-color:#ffff00 !important;
+}
+.red{
+  background-color:#ff3333 !important;
+  color:white;
+}
+.orange{
+  background-color:#ffa500 !important;
+}
+
