@@ -45,7 +45,7 @@ export default function(app) {
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());
-  console.log(process.env.IP)
+  console.log(process.env.URI)
 
   // Persist sessions with MongoStore / sequelizeStore
   // We need to enable sessions for passport-twitter because it's an
