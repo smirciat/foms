@@ -14,6 +14,7 @@ module.exports = {
 
   GOOGLE_ID: 'app-id',
   GOOGLE_SECRET: 'secret',
+  URI: 'my:uri', //for sequelize connections
 
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
