@@ -1,5 +1,7 @@
 'use strict';
 
+/* globals describe, expect, it, before, after, beforeEach, afterEach */
+
 import app from '../..';
 import {User} from '../../sqldb';
 import request from 'supertest';

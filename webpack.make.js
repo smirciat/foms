@@ -38,20 +38,20 @@ module.exports = function makeWebpackConfig(options) {
         config.entry = {};
     } else {
         config.entry = {
-            app: './client/app/app.js',
-            polyfills: './client/polyfills.js',
+            app: './client/app/app.ts',
+            polyfills: './client/polyfills.ts',
             vendor: [
-                'angular',
-                'angular-animate',
-                'angular-aria',
-                'angular-cookies',
-                'angular-resource',
-                'angular-route',
-                'angular-sanitize',
-                'angular-socket-io',
-                'angular-ui-bootstrap',
-                'angular-material',
-                'lodash'
+              'angular',
+              'angular-animate',
+              'angular-aria',
+              'angular-cookies',
+              'angular-resource',
+              'angular-material',
+              'angular-sanitize',
+              'angular-socket-io',
+              'angular-ui-bootstrap',
+              'angular-ui-router',
+              'lodash'
             ]
         };
     }
@@ -84,7 +84,10 @@ module.exports = function makeWebpackConfig(options) {
         };
     }
 
-
+    config.resolve = {
+        modulesDirectories: ['node_modules'],
+        extensions: ['', '.js', '.ts']
+    };
 
     if(TEST) {
         config.resolve = {
@@ -116,12 +119,7 @@ module.exports = function makeWebpackConfig(options) {
      */
 
 
-    config.babel = {
-        shouldPrintComment(commentContents) {
-            // keep `/*@ngInject*/`
-            return /@ngInject/.test(commentContents);
-        }
-    }
+
 
     // Initialize module
     config.module = {
@@ -179,7 +177,7 @@ module.exports = function makeWebpackConfig(options) {
                 //
                 // Reference: https://github.com/webpack/style-loader
                 // Use style-loader in development for hot-loading
-                ? ExtractTextPlugin.extract('style', 'css?sourceMap!postcss')
+                ? ExtractTextPlugin.extract('style', 'css!postcss')
                 // Reference: https://github.com/webpack/null-loader
                 // Skip loading css in test mode
                 : 'null'
@@ -187,28 +185,12 @@ module.exports = function makeWebpackConfig(options) {
     };
 
     config.module.postLoaders = [{
-        test: /\.js$/,
+        test: /\.ts$/,
         loader: 'ng-annotate?single_quotes'
     }];
 
-    // ISPARTA INSTRUMENTER LOADER
-    // Reference: https://github.com/ColCh/isparta-instrumenter-loader
-    // Instrument JS files with Isparta for subsequent code coverage reporting
-    // Skips node_modules and spec files
-    if(TEST) {
-        config.module.preLoaders.push({
-            //delays coverage til after tests are run, fixing transpiled source coverage error
-            test: /\.js$/,
-            exclude: /(node_modules|spec\.js|mock\.js)/,
-            loader: 'isparta-instrumenter',
-            query: {
-                babel: {
-                    // optional: ['runtime', 'es7.classProperties', 'es7.decorators']
-                }
-            }
-        });
-    }
 
+    //TODO: TS Instrumenter
 
     /**
      * PostCSS
@@ -259,15 +241,17 @@ module.exports = function makeWebpackConfig(options) {
     // Skip rendering index.html in test mode
     // Reference: https://github.com/ampedandwired/html-webpack-plugin
     // Render index.html
-    let htmlConfig = {
-        template: 'client/_index.html',
-        filename: '../client/index.html',
-        alwaysWriteToDisk: true
+    if(!TEST) {
+        let htmlConfig = {
+            template: 'client/_index.html',
+            filename: '../client/index.html',
+            alwaysWriteToDisk: true
+        }
+        config.plugins.push(
+          new HtmlWebpackPlugin(htmlConfig),
+          new HtmlWebpackHarddiskPlugin()
+        );
     }
-    config.plugins.push(
-      new HtmlWebpackPlugin(htmlConfig),
-      new HtmlWebpackHarddiskPlugin()
-    );
 
     // Add build specific plugins
     if(BUILD) {

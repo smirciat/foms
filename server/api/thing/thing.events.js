@@ -19,9 +19,11 @@ var events = {
 };
 
 // Register the event emitter to the model events
-for(var e in events) {
-  let event = events[e];
-  Thing.hook(e, emitEvent(event));
+function registerEvents(Thing) {
+  for(var e in events) {
+    let event = events[e];
+    Thing.hook(e, emitEvent(event));
+  }
 }
 
 function emitEvent(event) {
@@ -32,4 +34,5 @@ function emitEvent(event) {
   };
 }
 
+registerEvents(Thing);
 export default ThingEvents;

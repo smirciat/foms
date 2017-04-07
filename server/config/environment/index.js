@@ -20,7 +20,7 @@ var all = {
   root: path.normalize(`${__dirname}/../../..`),
 
   // Browser-sync port
-  browserSyncPort: process.env.BROWSER_SYNC_PORT || 3000,
+  browserSyncPort: process.env.BROWSER_SYNC_PORT || 8081,
 
   // Server port
   port: process.env.PORT || 9000,
@@ -33,7 +33,7 @@ var all = {
 
   // Secret for session, you will want to change this and make it an environment variable
   secrets: {
-    session: 'foms-secret'
+    session: 'workspace-secret'
   },
 
   // MongoDB connection options
@@ -43,6 +43,12 @@ var all = {
         safe: true
       }
     }
+  },
+
+  facebook: {
+    clientID: process.env.FACEBOOK_ID || 'id',
+    clientSecret: process.env.FACEBOOK_SECRET || 'secret',
+    callbackURL: `${process.env.DOMAIN || ''}/auth/facebook/callback`
   },
 
   google: {
